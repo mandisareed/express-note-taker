@@ -1,10 +1,8 @@
 // Dependencies
 const express = require("express");
 const path = require("path");
-
-//Route dependencies
-// const apiRoutesDependency = require("./routes/apiroutes");
-// const htmlRoutesDependency = require("./routes/htmlroutes");
+const storedData = require("/db/db");
+const fs = require("fs");
 
 // Sets up the Express App
 const app = express();
@@ -23,9 +21,9 @@ const fakeTasks = [
 ];
 
 //API Routes
+    //reads the db.json file and return all SAVED notes as JSON
 app.get("/api/notes", (req, res) => {
-    res.sendFile(path.join(__dirname, "db.json"));
-    //should read the db.json file and return all SAVED notes as JSON
+    res.json(storedData);
   });
   
   //receive a new note to save on the request body, add it to the db.json file, 
@@ -57,9 +55,7 @@ app.get("/notes", (req, res) => {
     res.sendFile(path.join(__dirname, "public/index.html"));
   });
 
-//below is a map of where to guide the server through the series of requests
-// apiRoutesDependency(app);
-// htmlRoutesDependency(app);
+
 
 // Tells the server which port to listen to 
 app.listen(PORT, function() {
