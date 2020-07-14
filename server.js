@@ -13,22 +13,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 
-//require fs to read the json file
 
-//create "dummy" data as a test
-// const addedTasks = [
-//   {
-//     task1: "make coffee",
-//     task2: "eat breakfast",
-//   },
-// ];
 
 //API Routes
-//reads the db.json file and return all SAVED notes as JSON
 app.get("/api/notes", (req, res) => {
   res.json(storedData);
 });
-
 
 app.post("/api/notes", (req, res) => {
   const newTask = req.body;
@@ -37,16 +27,13 @@ app.post("/api/notes", (req, res) => {
   } else {
     newTask.id = storedData.length;
   }
-  console.log(newTask);
 
   storedData.push(newTask);
 
   fs.writeFile("db/db.json", JSON.stringify(storedData), (error) => {
     if (error) throw error;
-    console.log("Created new task!");
-
-    return storedData;
   });
+  res.send(storedData);
 });
 
 //need to add an API route to delete notes
@@ -57,14 +44,14 @@ app.delete("/api/notes/:id", (req, res) => {
 
   fs.writeFile("db/db.json", JSON.stringify(storedData), (error) => {
     if (error) throw error;
-    console.log("Deleted new task!");
 
     if (!storedData === undefined || !storedData.length === 0) {
-    for (let i = 0; i < storedData.length; i++){
+      for (let i = 0; i < storedData.length; i++) {
         storedData[i].id = i;
-      };
-    };
+      }
+    }
   });
+  res.send(storedData);
 });
 
 // HTML Routes
