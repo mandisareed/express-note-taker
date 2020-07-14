@@ -23,7 +23,7 @@ app.get("/api/notes", (req, res) => {
 app.post("/api/notes", (req, res) => {
   const newTask = req.body;
   if (storedData === "") {
-    newTask.id = 1;
+    newTask.id = 0;
   } else {
     newTask.id = storedData.length;
   }
@@ -41,15 +41,16 @@ app.delete("/api/notes/:id", (req, res) => {
   const newTask = req.params.id;
 
   storedData.splice(newTask, 1);
+for (let i = 0; i < storedData.length; i++) {
+        storedData[i].id = i;
+      }
 
   fs.writeFile("db/db.json", JSON.stringify(storedData), (error) => {
     if (error) throw error;
 
-    if (!storedData === undefined || !storedData.length === 0) {
-      for (let i = 0; i < storedData.length; i++) {
-        storedData[i].id = i;
-      }
-    }
+    // if (!storedData === undefined || !storedData.length === 0) {
+      
+    // }
   });
   res.send(storedData);
 });

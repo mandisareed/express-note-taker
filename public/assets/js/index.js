@@ -36,7 +36,6 @@ const deleteNote = (id) => {
 const renderActiveNote = () => {
   $saveNoteBtn.hide();
 
-
   if (activeNote.id) {
     $noteTitle.attr("readonly", true);
     $noteText.attr("readonly", true);
@@ -56,6 +55,7 @@ const handleNoteSave = function () {
     title: $noteTitle.val(),
     text: $noteText.val(),
   };
+
   saveNote(newNote).then(() => {
     getAndRenderNotes();
     renderActiveNote();
@@ -72,7 +72,7 @@ const handleNoteDelete = function (event) {
   if (activeNote.id === note.id) {
     activeNote = {};
   }
-
+console.log(note.id);
   deleteNote(note.id).then(() => {
     getAndRenderNotes();
     renderActiveNote();
@@ -96,10 +96,8 @@ const handleNewNoteView = function () {
 const handleRenderSaveBtn = function () {
   if (!$noteTitle.val().trim() || !$noteText.val().trim()) {
     $saveNoteBtn.hide();
-    $newNoteBtn.hide();
   } else {
     $saveNoteBtn.show();
-    $newNoteBtn.show();
   }
 };
 
